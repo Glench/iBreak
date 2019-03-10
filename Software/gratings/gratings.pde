@@ -13,7 +13,7 @@ void draw()
   background(255);
   stroke(0);
   strokeWeight(coarseness/2);
-  for(int x=0;x<displayWidth*2;x+=coarseness)
+  for(int x=0;x<displayWidth*2+height;x+=coarseness)
   {
     line(x+offset,0,x+height*tan(radians(angle))+offset, height);
   }
@@ -29,6 +29,10 @@ void keyPressed()
     {
       if(coarseness>1)
       coarseness--;
+    }
+    if(key=='a')
+    {
+      angle+=90;
     }
     println(coarseness);
 }
