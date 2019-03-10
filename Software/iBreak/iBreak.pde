@@ -17,7 +17,12 @@ boolean blankingText=false;
 
 int textHeight=40;
 void setup() {
-  launch(dataPath("FaceOSC.app"));
+  String OS = platformNames[platform];  //get the platform we're running so we can launch the correct version of faceOSC
+  println(OS);
+  if (OS.indexOf("osx")!=0)  //if it's a mac
+    launch(dataPath("mac/FaceOSC.app"));
+  else //otherwise, assume windows.  No faceosc builds for linux atm
+    launch(dataPath("win/FaceOSC.exe"));
   /* start oscP5, listening for incoming messages at port 12000 */
   oscP5 = new OscP5(this, 8338);
   size(displayWidth, displayHeight);
