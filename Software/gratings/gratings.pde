@@ -4,7 +4,8 @@ float coarseness=10;
 void setup()
 {
   size(displayWidth, displayHeight);
-  int offset=-height;
+  offset=-height;
+  
 }
 
 void draw()
