@@ -62,14 +62,16 @@ void draw() {
   if (state=="test")
     fill(0, 255, 0);
 
-  rect(10, 10, 600, textHeight);
+  rect(10, 10, 380, textHeight);
   fill(255);
-  rect(10, 10+10+textHeight, 400, textHeight);
+  rect(10, 10+10+textHeight, 380, textHeight);
+  rect(10, 10 + 20 + 2*textHeight,380, textHeight);
   fill(0);
   if (!blankingText) {
     text(message, 20, 5 +textHeight);
-    text(nf(distance, 1, 1)+" / "+nf(currentDistance, 1, 1), 30, 10+5+2*textHeight);
-  }
+    text("target: " + nf(distance, 1, 1), 20, 15 + 2 * textHeight);
+    text("your distance: " + nf(currentDistance, 1, 1), 20, 25+3*textHeight);
+    }
 }
 
 
