@@ -47,8 +47,8 @@ const canvasEl = document.querySelector('canvas')
 canvasEl.style.left = 0
 
 async function load() {
-    await faceapi.nets.tinyFaceDetector.loadFromUri('./') // load face detector model data
-    await faceapi.nets.faceLandmark68Net.loadFromUri('./') // load facial landmarks model data
+    await faceapi.nets.tinyFaceDetector.loadFromUri('models/') // load face detector model data
+    await faceapi.nets.faceLandmark68Net.loadFromUri('models/') // load facial landmarks model data
 
     const stream = await navigator.mediaDevices.getUserMedia({ video: {} }) // get webcam video data
     videoEl.srcObject = stream
