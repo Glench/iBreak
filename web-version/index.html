@@ -38,20 +38,6 @@
         <video onloadedmetadata="onPlay(this)" id="inputVideo" autoplay muted></video>
         <canvas id="display" style="position: absolute;" />
 
-        <!-- development build -->
-        <script src="underscore.js"></script>
-        <!-- <script src="http://epeli.github.io/underscore.string/lib/underscore.string.js"></script> -->
-        <script src="jquery-3.3.1.js"></script>
-        <script src="react.development.js" charset="utf-8"></script>
-        <script src="react-dom.development.js" charset="utf-8"></script>
-        <script src="d3.v3.min.js" charset="utf-8"></script>
-        <!-- production build
-        <script src="underscore-min.js"></script>
-        <script src="jquery-3.3.1.min.js"></script>
-        <script src="react.production.min.js" charset="utf-8"></script>
-        <script src="react-dom.production.min.js" charset="utf-8"></script>
-        -->
-
         <script src="face-api.js"></script>
         <script type="text/javascript">
 // lots of code borrowed from https://github.com/justadudewhohacks/face-api.js/blob/master/examples/examples-browser/views/webcamFaceLandmarkDetection.html
@@ -61,8 +47,8 @@ const canvasEl = document.querySelector('canvas')
 canvasEl.style.left = 0
 
 async function load() {
-    await faceapi.nets.tinyFaceDetector.loadFromUri('') // load face detector model data
-    await faceapi.nets.faceLandmark68Net.loadFromUri('') // load facial landmarks model data
+    await faceapi.nets.tinyFaceDetector.loadFromUri('./') // load face detector model data
+    await faceapi.nets.faceLandmark68Net.loadFromUri('./') // load facial landmarks model data
 
     const stream = await navigator.mediaDevices.getUserMedia({ video: {} }) // get webcam video data
     videoEl.srcObject = stream
