@@ -36,7 +36,8 @@
     <body>
 
         <video onloadedmetadata="onPlay(this)" id="inputVideo" autoplay muted></video>
-        <canvas id="display" style="position: absolute;" />
+        <canvas id="display" style="position: absolute;"></canvas>
+        <h1></h1>
 
         <script src="face-api.js"></script>
         <script type="text/javascript">
@@ -56,6 +57,16 @@ async function load() {
 load()
 
 const faceOptions = new faceapi.TinyFaceDetectorOptions();
+
+// 68 facial points reference: https://www.pyimagesearch.com/wp-content/uploads/2017/04/facial_landmarks_68markup-768x619.jpg
+const TOP_LEFT_EYE_INDEX = 38 // 39 in 1-based array
+const TOP_RIGHT_EYE_INDEX = 43 // 44 in 1-based array
+const TOP_MOUTH_INDEX = 51 // 52 in 1-based array
+
+function distance(point1, point2) {
+    return Math.sqrt(Math.pow())
+}
+
 async function onPlay() {
     if (videoEl.paused || videoEl.ended || !faceapi.nets.tinyFaceDetector.isLoaded) {
         return requestAnimationFrame(onPlay)
@@ -66,6 +77,14 @@ async function onPlay() {
         const resizedResult = faceapi.resizeResults(detection, dims)
         faceapi.draw.drawDetections(canvasEl, resizedResult)
         faceapi.draw.drawFaceLandmarks(canvasEl, resizedResult)
+
+        const left_eye = detection.landmarks.positions[TOP_LEFT_EYE_INDEX]
+        const right_eye = detection.landmarks.positions[TOP_RIGHT_EYE_INDEX]
+        const mid_eye = faceapi.getCenterPoint([left_eye, right_eye]) // right between the eyes
+        const mouth = detection.landmarks.positions[TOP_MOUTH_INDEX]
+
+        const face_height_in_camera = mid_eye.sub(mouth).magnitude() // measured on midline from midway between eyes to top lip
+        document.querySelector('h1').innerText = 'Distance: '+face_height_in_camera
     }
 
     requestAnimationFrame(onPlay)
