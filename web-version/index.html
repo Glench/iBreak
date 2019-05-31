@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+
+    <head>
+        <title>iBreak</title>
+        <style type="text/css">
+            html, body {
+                margin: 0;
+                padding: 0;
+                font-size: 13px;
+                font-family: Helvetica, Arial, sans-serif;
+                line-height: 1;
+            }
+            table {
+                border-collapse: collapse;
+                border-spacing: none;
+            }
+            p {
+                margin: 0;
+            }
+        </style>
+        <!-- <link href="" rel="stylesheet"> -->
+
+        <!--
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@glenchsite" />
+        <meta name="twitter:creator" content="@glench" />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="http://glench.com/DeepListeningAtTheRecurseCenter/" />
+        <meta property="og:title" content="Deep Listening at the Recurse Center" />
+        <meta property="og:description" content="Helping programmers become more self-directed through meditative listening." />
+        <meta property="og:image" content="http://glench.com/DeepListeningAtTheRecurseCenter/icon.png" />
+        -->
+
+    </head>
+    <body>
+
+        <video onloadedmetadata="onPlay(this)" id="inputVideo" autoplay muted></video>
+        <canvas id="display" style="position: absolute;" />
+
+        <!-- development build -->
+        <script src="underscore.js"></script>
+        <!-- <script src="http://epeli.github.io/underscore.string/lib/underscore.string.js"></script> -->
+        <script src="jquery-3.3.1.js"></script>
+        <script src="react.development.js" charset="utf-8"></script>
+        <script src="react-dom.development.js" charset="utf-8"></script>
+        <script src="d3.v3.min.js" charset="utf-8"></script>
+        <!-- production build
+        <script src="underscore-min.js"></script>
+        <script src="jquery-3.3.1.min.js"></script>
+        <script src="react.production.min.js" charset="utf-8"></script>
+        <script src="react-dom.production.min.js" charset="utf-8"></script>
+        -->
+
+        <script src="face-api.js"></script>
+        <script type="text/javascript">
+// lots of code borrowed from https://github.com/justadudewhohacks/face-api.js/blob/master/examples/examples-browser/views/webcamFaceLandmarkDetection.html
+
+const videoEl = document.querySelector('video')
+const canvasEl = document.querySelector('canvas')
+canvasEl.style.left = 0
+
+async function load() {
+    await faceapi.nets.tinyFaceDetector.loadFromUri('') // load face detector model data
+    await faceapi.nets.faceLandmark68Net.loadFromUri('') // load facial landmarks model data
+
+    const stream = await navigator.mediaDevices.getUserMedia({ video: {} }) // get webcam video data
+    videoEl.srcObject = stream
+}
+load()
+
+const faceOptions = new faceapi.TinyFaceDetectorOptions();
+async function onPlay() {
+    if (videoEl.paused || videoEl.ended || !faceapi.nets.tinyFaceDetector.isLoaded) {
+        return requestAnimationFrame(onPlay)
+    }
+    const detection = await faceapi.detectSingleFace(videoEl, faceOptions).withFaceLandmarks()
+    if (detection) {
+        const dims = faceapi.matchDimensions(canvasEl, videoEl, true)
+        const resizedResult = faceapi.resizeResults(detection, dims)
+        faceapi.draw.drawDetections(canvasEl, resizedResult)
+        faceapi.draw.drawFaceLandmarks(canvasEl, resizedResult)
+    }
+
+    requestAnimationFrame(onPlay)
+}
+
+
+
+
+        </script>
+    </body>
+</html>
